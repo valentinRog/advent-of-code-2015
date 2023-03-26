@@ -1,8 +1,8 @@
-import * as mod from "https://deno.land/std@0.181.0/streams/mod.ts";
+import { readAllSync } from "https://deno.land/std@0.181.0/streams/mod.ts";
 
-const data: string[] = [...mod.readAllSync(Deno.stdin)]
+const data: string[] = [...readAllSync(Deno.stdin)]
   .map((x) => String.fromCharCode(x))
-  .filter((x) => x === "(" || x == ")");
+  .filter((x) => "()".includes(x));
 
 let n = 0;
 for (const [i, c] of data.entries()) {

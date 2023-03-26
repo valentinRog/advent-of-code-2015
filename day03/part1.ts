@@ -1,8 +1,8 @@
-import * as mod from "https://deno.land/std@0.181.0/streams/mod.ts";
+import { readAllSync } from "https://deno.land/std@0.181.0/streams/mod.ts";
 
 type Direction = "<" | ">" | "^" | "v";
 
-const data = [...mod.readAllSync(Deno.stdin)]
+const data = [...readAllSync(Deno.stdin)]
   .map((x) => String.fromCharCode(x))
   .filter((x) => "<>v^".includes(x)) as Direction[];
 

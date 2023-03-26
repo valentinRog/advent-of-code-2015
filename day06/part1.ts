@@ -1,4 +1,4 @@
-import * as mod from "https://deno.land/std@0.181.0/streams/mod.ts";
+import { readAllSync } from "https://deno.land/std@0.181.0/streams/mod.ts";
 
 const W = 1000;
 
@@ -9,7 +9,7 @@ type Action = {
 };
 
 const data = new TextDecoder()
-  .decode(mod.readAllSync(Deno.stdin))
+  .decode(readAllSync(Deno.stdin))
   .trim()
   .split("\n")
   .map((x) => {
