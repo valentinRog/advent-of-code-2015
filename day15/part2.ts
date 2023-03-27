@@ -5,6 +5,7 @@ type Ingredient = {
   durability: number;
   flavor: number;
   texture: number;
+  calories: number;
 };
 const data: Ingredient[] = new TextDecoder()
   .decode(readAllSync(Deno.stdin))
@@ -21,6 +22,7 @@ const data: Ingredient[] = new TextDecoder()
       durability: a[1],
       flavor: a[2],
       texture: a[3],
+      calories: a[4],
     };
   });
 
@@ -35,14 +37,28 @@ function score(k: number[]): number {
   return a.map((x) => (x < 0 ? 0 : x)).reduce((n, x) => n * x);
 }
 
+function calories(k: number[]): number {
+  let n = 0;
+  k.forEach((x, i) => {
+    n += x * data[i].calories;
+  });
+  return n > 0 ? n : 0;
+}
+
 const configs: number[][] = [[]];
 while (configs[0].length < data.length) {
   const x = configs.shift()!;
   for (let i = 0; i <= 100; i++) {
     const n = x.reduce((n, x) => n + x, 0) + i;
-    if (n <= 100 && (x.length + 1 < data.length || n === 100)) {
-      configs.push([...x, i]);
+    if (n > 100) {
+      continue;
     }
+    const y = [...x, i];
+    if (y.length === data.length && (n !== 100 || calories(y) !== 500)) {
+      continue;
+    }
+    configs.push(y);
   }
 }
+
 console.log(configs.reduce((n, x) => Math.max(n, score(x)), 0));
