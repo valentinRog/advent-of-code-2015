@@ -21,4 +21,15 @@ function dist(r: Reindeer, dt: number): number {
   return d + r.v * Math.min(Math.round(dt), r.dt1);
 }
 
-console.log(data.reduce((n, x) => Math.max(n, dist(x, 2503)), 0));
+const score = new Array<number>(data.length).fill(0);
+
+for (let k = 1; k <= 2503; k++) {
+  let a = data.map((x, i) => [i, dist(x, k)]);
+  const w = a.reduce((acc, x) => Math.max(acc, x[1]), 0);
+  a = a.filter((x) => x[1] === w);
+  for (const [i, _] of a) {
+    score[i]++;
+  }
+}
+
+console.log(Math.max(...score));
