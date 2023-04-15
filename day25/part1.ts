@@ -4,8 +4,7 @@ const data = new TextDecoder().decode(readAllSync(Deno.stdin)).trim();
 const [y, x] = data.match(/\d+/g)!.map(Number);
 
 function un(x: number, y: number): number {
-  if (y === 0) return (x + 1) * ((2 + x) / 2);
-  return un(x + 1, y - 1) - 1;
+  return (x + y + 1) * ((2 + x + y) / 2) - y;
 }
 
 const n = un(x - 1, y - 1);
